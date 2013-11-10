@@ -3,7 +3,7 @@ module.exports = (grunt) ->
     copy:
       main:
         src: ['lib/**', 'resource/**', '*.html']
-        dest: 'release/'
+        dest: 'gh-pages/'
     jade:
       compile:
         files:
