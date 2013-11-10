@@ -114,6 +114,7 @@ table.range td.range-mid {
 }
 
 table.view {
+  color: black;
   margin: auto;
   padding: 0; }
   table.view tr {
