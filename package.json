@@ -1,0 +1,24 @@
+{
+  "name": "entry-algorithm",
+  "version": "0.1.0",
+  "description": "Hello `Algorithm' World!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "release": "node index.js release"
+  },
+  "repository": "",
+  "author": "alucky <alucky0707@myopera.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-bower-task": "~0.3.2",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-jade": "~0.8.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "express": "~3.4.4"
+  },
+  "dependencies": {
+    "colors": "~0.6.2"
+  }
+}

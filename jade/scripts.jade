@@ -1,0 +1,31 @@
+.twitter(style="display: block; position: absolute; bottom: 10px; left: 50%; margin-left: -200px; z-index: 20;")
+  a.twitter-share-button(href="https://twitter.com/share",data-via="alucky0707",data-lang="ja").
+    ツイート
+  script(src="http://platform.twitter.com/widgets.js")
+
+script(src="./lib/reveal.js/lib/js/head.min.js")
+script(src="./lib/reveal.js/js/reveal.js")
+
+script.
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history:  true,
+    
+    theme: Reveal.getQueryHash().theme,
+    transition: Reveal.getQueryHash().transition || 'default',
+    
+    math: {
+      mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+      config: 'TeX-AMS_HTML-full',
+    },
+    
+    dependencies: [
+      { src: './lib/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: './lib/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: './lib/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: './lib/reveal.js/plugin/math/math.js', async: true },
+    ],
+  });
+
+script(src="./resource/index.js")

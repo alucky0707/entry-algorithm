@@ -1,0 +1,1039 @@
+account = "https://twitter.com/alucky0707"
+
+section
+  h1(style="font-size: 2.11em;") Hello Algorithm World
+  h3 アルゴリズム入門
+  p
+    small Created by <a href=#{account}>@alucky0707</a>
+
+section
+  h2 自己紹介
+  ul
+    li <a href=#{account}>@alucky0707</a>
+      p(style="float:right;")
+        img(src="./resource/icon.png",style="width:180px;height:180px;")
+    li あらっきぃ
+    li 東京工業大学附属科学技術高等学校1年
+    li プログラミング言語が好きっていうちょっとヤバめな人
+    li 最近は艦こればかりやっている
+    li 好きなもの: 艦これ、Haskell、JavaScript、JS
+    li 嫌いなもの: C言語、C++、C#、その他Cとつくもの
+
+section
+  h2 このスライドの対象者
+  ul
+    li アルゴリズムって言葉くらいは聞いたことある人
+    li 何となく自分が考えるプログラムが書けるようになった人
+    li 配列くらいは分かる人
+    li もっとプログラミングのスキルを高めていきたい人
+    li JSが好きな人
+
+section
+  h2 はじめに
+  p このスライドではJavaScriptを使います。理由はC言語なんて書きたくないからです。
+  p あと、ブラウザ上で実行できるので、アクティブに動作を確認できるからです。
+  p.
+    でもまあ、そんなに怖いJavaScriptは無いし、多分C言語程度の知識があれば理解できると思うので安心してください。
+  p.
+    (C言語の関数ポインタとかの方がよっぽど怖いです。)
+
+section
+  section
+    h2 アルゴリズムとは？
+  section
+    p 簡単に言えば、ある問題を解くための方法です。
+  section
+    p 「最大公約数を求めるために、ユークリッドの互除法を使う」……みたいな
+  section
+    p は？
+  section
+    pre.aa
+      |　 　 　 　 |＼　　 　 　 　 　 ／|
+      |　 　 　 　 |＼＼　　 　 　 ／／|
+      |　　　　 　 : 　,>　｀´￣｀´　<　 ′
+      |.　　　　 　 Ｖ　 　 　 　 　 　 Ｖ
+      |.　　　　 　 i{　●　 　 　 ●　}i
+      |　　　　 　 八　 　 ､_,_, 　 　 八 　　　わけがわからないよ 
+      | . 　 　 　 /　个 . ＿　 ＿ . 个 ',
+      |　　　＿/ 　 il 　 ,'　　　 '.　 li　 ',＿_
+  section
+    p まあ、そうなりますよね…。
+  section
+    p というわけで……、
+
+section
+  section
+    p.
+      突然ですが、問題です。
+   section
+     h3 問題
+     p.
+       100万個の数値の入った配列<code>ARR</code>(配列の英訳arrayの略)が渡されます。<br>
+       この中に、数値<code>N</code>が入っているかを表示するプログラムを作りなさい。
+
+section
+  section
+    p.
+      これは簡単ですよね？
+  section
+    h3 コード
+    p.
+      表示を<code>alert</code>とすると、こんなコードでいいはずです。
+    pre
+      code.javascript(data-trim, contenditable).
+        var flag = false; //1.
+        for (var i = 0; i < 1000000; i++) { //2.
+          //3.
+          if (ARR[i] === N) {
+            flag = true;
+          }
+        }
+        
+        //4.
+        if (flag) {
+          alert("入ってるよ");
+        } else {
+          alert("入ってないよ");
+        }
+  section(data-markdown)
+    script(type="text/template").
+      ###コードの内容
+      
+      1. `flag`を偽(`false`)で初期化。
+      2. 配列`ARR`の要素を一つ一つ確認。
+      3. その要素が、`N`と等しいなら、
+        * `flag`を真(`true`)にする。
+      4. 配列`ARR`の要素を全て確認したら、`flag`の値が、
+        * 真(`true`)なら、`"入ってるよ"`と表示。
+        * 偽(`false`)なら、`"入ってないよ"`と表示。
+
+section
+  section
+    p さて、勘のいい方はお気付きかもしれませんが……、
+  section
+    pre.aa
+      |　　　　　 /|
+      |ﾍ　/|/ |　　　N /i/´ ﾞ￣￣｀`ヾ)＿　　　　　　∧　　/
+      |　V 　 .|　,　 Nヾ　ﾞ　　　　　　　　ﾞヽ　　　|＼/　∨l/
+      |　　　　ﾚ'　7Nﾞ､　　　　　　　　　　　 ﾞi　_|｀
+      |　　　　　 /Nﾞゞ　　　　　　　　　　　　.! ヽ　　　　　さ
+      |　　　 ア　 7ゞミﾐ､　　ノ,彡ｲﾊヾ、　　i　Z　　　　　っ
+      |　　　ル　Zー-r-==､'リノ_ﾉ_,.ヾミ,.ｨ,ﾆi　ヽ　　 　　き
+      |　な　ゴ　/　　{i　｀ﾞ';l={ﾞ´石ゞ}='´ﾞ'r_/　〈　　　　　の
+      |　ん　リ　|:　　 ｀iー'/　ヾ､__,.ﾉ　 /i´　　/　　こ　　解
+      |　だ　ズ　i､ 　　　!　 ﾞﾆ-=､　 u / ,ト,　∠_　 そ　 説
+      |　よ　ム　|｀　　　 ヽ、i'､_丿　／／/ ヽ　/_ が　　
+      |！！　　 |　　＿,.ｨﾍヽ二 ｨ'_／　/　　ﾞi＼|／Wlﾍ
+      |　　　　　 |'￣／　i　ヽ_.／´ 　 ./　 　 .|　｀＼　　 ∨＼
+      |wﾍ　 /＼|／　　/ィ´￣ﾞi　　　/　　　ir＝､　 l'i"ヽ､
+      |　　∨　∠__,,..-ｲ　i　　 /＼_,ｲ,=-、　i ､,.ゞ､ | ﾞ'"ヽ ＼
+      |! 　 　 .i-'´　　,i | ./｀ﾞ'i'　　 /i_.!._,..ヽ＜!　　ﾞi､ﾞi.　 =ﾞ!　 ＼
+      |!　　　 |　　　.,iﾞ::|/　　.|　 ,/::/-i　　 ﾞi　ﾞi　三ﾞi ﾞi　　 | /⌒
+      |i/　　 .|　　　,iﾞ:::i'　 　 | ,/ ::/= .|三.　ﾞi/.|　　 .| .|　　.ij:.
+      |.l〉　　 |　　 ,iﾞ :::|　　　.!' ::::iﾞ'i　　ﾄ.　　ﾞi　|　_,.. V　＝,!
+      |　!　　 |　　,iﾞ ::::|　　 / ::::::|　l=　ヾ!.._　ヽ｣　"´;i　　:.:i　./
+      |. |　　 .|　 .,i ::::::|　 ,/::::::::::|　 ヾ:.:.　ヾ::"　ﾞ　　　　　/／
+      |│　　 |　 ,i::::::::| ,/ .::::::::: |　　　ﾞi.:.:.:.:.:､:.:.:.:.:.:.:.:.:.:／,ｨ'"´
+      |.| 　 　 |　 i::::::::,ｲ::::::::::::::::|　　　/ﾄ､;:;:;:;:;:;:;:;:;:;::,ノi|Y
+  section
+    pre.aa
+      |　　　　　　　　　ナ ゝ　　　ナ ゝ　/　 　 十＿"　 　 ー;=‐　　　　　　　　　|! |!
+      |　　　　　　　　　　cト　　　　cト　/＾､_ﾉ　 | ､.__　つ　 （.__ 　 ￣￣￣￣ 　 ・ ・
+      |ミﾐ:::;,!　　　　　　u　　　　　　　｀ﾞ"~´　　　ヾ彡::l／VvVw、 ,yvヾNヽ　　ゞヾ　 ,.　,.　,.　、､ヾゝヽr＝ヾ
+      |ﾐ::::;/　　￣ﾞ`ｰ-.､　　　　　u　　;,,;　　　j　　 ヾk'!　' l　/ 'ﾚ ^ヽﾍ＼　　 ,rﾞゞﾞ-"､ノ /　l!　!ヽ ､､　|
+      |ミ/　　　　J　　　ﾞ`ｰ､　　　"　;, ;;;　,;;　ﾞ　　u ヾi　　　 ,,./　,　,､ヾヾ　　 | '-- ､..,,ヽ　 j　 !　| Nヾ|
+      |'"　　　　　　　_,,.. -─ゝ.､　　　;, "　;;　　　_,,..._ゞｲ__／/〃 i.! ilヾゞヽ　 | ､　 .r．　ヾ-､;;ﾉ,.:-一'"i
+      |　　j　　　　／　　 ,.- ､　 ヾヽ、　;; ;;　_,-＜　　/／_,,＼' "' !|　:l ﾞi !_,,ヽ.l　`ー─--　 ｴｨ' (． 7 /
+      |　　　　　　:　　　　' ・丿　　￣≠Ξｲ´,-､　ヽ /ｲ´ r．　`ー-'ﾒ ,.-´､　　i　　　　 u　　ヾ｀`ー' ｲ
+      |　　　　　　 ＼_　　　 _,,......::　　　´ﾞi､　`¨　/　i　ヽ.__,,... '　 u ﾞl´.i･j.冫,ｲﾞl　 ／ ｀`-､..-　ノ　:u l
+      |　　　u　　　　　￣￣　　彡"　　　、ヾ￣｀`ﾐ::.l　　u　　　j　　i､｀ー'　.i /　/､._　　　　｀'y　　 /
+      |　　　　　　　　　　　　　　u　　　　　　｀ヽ　　ﾞ:l　　 ,.::- ､,,　,.　ノ　ﾞ u　!　/_　　￣　ー/　u　/
+      |　　　　　　　　　　　_,,..,,_　　　　,.ｨ､　 ／　　　|　 /__　　 ｀`- ､_　　　 l　l　 ｀`ｰt､_　/　　／
+      |　　ﾞ　　　u　　,.／´　"　 ｀`- ､_Ｊ　r'´　 u　丿　.l,...　｀ー一''/　　　ノ　 ﾄ ､,,_____　ﾞ/　／
+      |　　　　　　　 ./＿_　　　　　　　　ｰ７　　　　/、　l　　 'ﾞ　ヽ/　 ,. '"　　＼｀ｰ--- ",.::く､
+      |　　　　　　　/;;;''"　￣￣ ───/　　ﾞ　 ,::'　 ＼ヾﾆ==＝'"／ ｀- ､　　　ﾞー┬ '´　/　＼..,,__
+      |、　　　　　 .i:⌒`─-､_,....　　　　l　　　／　　　　 ｀ー┬一'　　　　　 ヽ　　　 :l　 ／　 , '　｀ソヽ
+      |ヾヽ　　　　 l　　　　　 `　 ｀ヽ、 l　 .／　　ヽ　　　　　 l　　　　　　　　　）　　,; ／　　　,'　　　　'^i
+  section
+    p つまり、ある問題を解くための方法ってことです。
+
+section
+  p おめでとうございます。これでアルゴリズムが何かは分かりましたね。
+
+section
+  p それでは、
+
+section
+  h2 THE END
+
+section
+
+section
+  p って、これで終わっても全くプログラミングは上達しなさそうです。
+
+section
+  p なので、もうしばらく続きます。
+  p お付きあい下さい。
+
+section
+  section
+    p 突然ですが、問題です。
+  section
+    p (いやもう全然突然じゃねーよ)
+  section
+    h3 問題
+    p.
+      $m$個の数値の入った配列<code>ARR</code>が渡されます。<br>
+      この中に、$n$個の配列<code>NS</code>の要素が全て入っているかを表示するプログラムを作りなさい。
+
+section
+  section
+    p ……？ さっきと何が変わったんだ？
+  section
+    p よく見てください、入っているか確認する値が配列に変わっています！！
+    p (ついでに<code>ARR</code>の要素数も$m$になっています。)
+  section
+    p (あれ、でもこれ、さっきと同じようなアルゴリズムで解けるんじゃない？)
+
+section
+  section
+    h3 さっそく書いてみましょう！
+  section
+    h3 コード
+    pre
+      code.javascript(data-trim).
+        var allFlag = true; //1.
+        for (var i = 0; i < n; i++) { //2.
+          var flag = false; //2-1.
+          for (var j = 0; j < m; j++) { //2-2.
+            //2-3.
+            if (NS[i] === ARR[j]) {
+              flag = true;
+            }
+          }
+
+          //3.
+          allFlag = allFlag && flag;
+        }
+
+        //4.
+        if (allFlag) {
+          alert('全部入ってたよ');
+        } else {
+          alert('全部入ってなかったよ');
+        }
+  section(data-markdown)
+    script(type="text/template").
+      ###コードの内容
+
+      1. `allFlag`を真(`true`)で初期化。
+      2. 配列`NS`の要素を一つ一つ確認。
+        1. `flag`を偽(`false`)で初期化。
+        2. 配列`ARR`の要素を一つ一つ確認。
+        3. その要素が現在確認している配列`NS`の値と等しいなら、
+          * `flag`を真(`true`)にする。
+      3. 配列`ARR`の要素を全て確認したら、`allFlag`と`flag`のどちらもが真(`true`)なら、
+        * `allFlag`を真(`true`)にする。
+      4. 配列`NS`の要素を全て確認したら、`allFlag`の値が、
+        * 真(`true`)なら、`"全部入ってたよ"`と表示。
+        * 偽(`false`)なら、`"全部入ってなかったよ"`と表示。
+  section
+    p.
+      さっきのアルゴリズムを配列<code>NS</code>の全ての要素に対して行なった感じです。
+
+section
+  section
+    p 簡単でしたね。
+
+section
+  p あれ…、でもこれって……。
+
+section
+  p ちょっと重くないか……。
+
+section
+  section
+    h2 問題点
+  section
+    p 見ての通り、現在のコードは非常に効率が悪いです。
+  section
+    p 一体どのくらい効率が悪いのか、考えてみましょう。
+
+section
+  section
+    h2 効率の悪さ
+  section
+    p とりあえず、ループの回数を基準にしてみたいと思います。
+  section
+    p ループの部分を取り出してみました。
+    pre
+      code.javascript(data-trim).
+        for (var i = 0; i < n; i++) { //2.
+          var flag = false; //2-1.
+          for (var j = 0; j < m; j++) { //2-2.
+            //2-3.
+            if (NS[i] === ARR[j]) {
+              flag = true;
+            }
+          }
+
+          //3.
+          allFlag = allFlag && flag;
+        }
+  section
+    p.
+      最初の<code>for (var i = 0; i < n; i++)</code>は、<code>NS</code>の要素数$n$だけループして、その中にある<code>for (var j = 0; j < m; j++)</code>は、$m$回ループします。
+    p.
+      つまり、このコードは$n \times m$回ループしていることになります。
+  section
+    p $n$が1で$m$が1000000なら1000000回のループ、$n$が1000なら1000000000回のループになります。
+    p
+      button.try-button#try-example1
+        試しに<code>n=1000,m=10000000</code>で実行してみる
+  section
+    p あまり効率がよいとは言えなさそうですね……。
+
+section
+  section
+    h2 計算量
+  section
+    p.
+      ちなみに、このループの回数から定数を除いたものを、<mark>計算量</mark>と言い、$O(nとmの式)$で表わします。(正確には少し違いますが…)
+    p.
+      アルゴリズムの効率を表わすときによく使うので覚えておきましょう。
+  section
+    p.
+      今回の場合、ループの回数は$n \times m$なので、計算量は$O(n \times m)$となります。
+    p (って書くとそんなに効率悪く見えませんね…)
+
+section
+  section
+    h2 改善方法
+  section
+    p で、この効率の悪いアルゴリズムをどうにかしましょう。
+  section
+    p この場合、時間がかかっているのはどこでしょうか？
+  section
+    p ずばり、$m$回ループして配列に入っているか確認しているところですね。
+  section
+    p ここのループ数を少なくする方法を考えましょうか。
+
+section
+  section
+    h2 改善策(1)
+  section
+    p.
+      さて、考えを簡単にするために、$m$を10にします。
+  section
+    p.
+      さらに、この配列<code>ARR</code>が全て小さいものから大きいものへ並んでいるとします。
+  section(data-markdown)
+    script(type="text/template").
+      すると、「`N`が配列`ARR`に入っていること」は次のようにして確認できます。
+
+      1. まず、範囲を配列`ARR`の全体に設定。
+      2. 範囲の中間の位置の値と`N`を比較して、
+        * 等しければ、`N`は入っているので、真(`true`)を返して終了。
+        * `N`の方が大きければ、もっと前の方にあるので、範囲の上限を現在の中間の前に設定。
+        * `N`の方が小さければ、もっと後ろの方にあるので、範囲の下限を現在の中間の次に設定。
+      3. 範囲が幅が残っていれば、`2.`に戻って繰り返す。
+      4. 範囲の幅が無ければ、`N`は入っていないので偽(`false`)を返して終了。
+  section
+    pre.aa
+      |　　 　 　 　 　 　 　 /|:::::::::::::::::::::ヽ.:.:.:.:､:.:.:.:､:.:.:.､.:.､.:.:.:.:.:.::｀゛＞
+      |　　　　　　　　　　 /{::|:＼:::::::＼.:.:.:＼.:.:.ヽ::.::.ヽ:.:.ヽ::::::::::.:.｀゛ｰ- ..,__
+      |：　何　：　　　　／:|::’,: ﾄ､::::::ヽ､:.＼:.:.:.＼:.:.ヽ:.:.:＼.:.:.:.:.:::.:.:.:.:::.::::_;:-’´　　 ：　：　：
+      |：　が　：　　　//: /:::|::’,|::’､:::::::::＼:.:＼.:.:.ヽ:.:.:＼:.:..＼::::::::::::＼､::::＼　 　 ：　：　：
+      |：　何　：　　/!::|::l:::: /|:::l:ヽ:＼::ヽ:.:＼:.:＼.:::ヽ:.:.:ヽ:.:.:.:＼::::::::::::＼￣　　　：　：　：
+      |：　だ　：　　 |/l::|::|::|: ﾄ､:::::::::､､:ヽ､:.:.:.:::::::::::::::ヽ::::.:ヽ:.:.:.:.＼:.:.:.ヽ:::＼.　　 ：　：　：
+      |：　か　：　　 |::|::/l::|::|r‐ヽ:::::ヽ(ヽー,―＼::::::､::::::::::ヽ::.:.::::::.:::::::ヾ.￣　　 ：　：　：
+      |：　　 　：　　 }//l::|:::|{（:::）ヾ､:::ヽ ＼!（:::） ヽ,:::ヽ:::::::::::::::::::::::::::::::::::ヾ、 　 ：　：　：
+      |：　わ　：.　　 |/l::|::|:::|ヽ==”” ＼:ヽ、ヽ=＝’” |:::::::::::::::::::::::::::::::::::ヽ､::::＼
+      |　　か 　 　 /　’,|::|:::|　　　/　　 ｀゛　　 　 　 |!::::::::::::::::::::::::::::ﾄ､::ﾄ､_｀ ゛`
+      |　　ら　　　　　　l::!::::ﾄ、 　’､　_　　　　　　 　 ||::::::::::::::::::::::::ﾄ:ヽヾ|　|￣￣￣｀ヽ、
+      |　　な　　 　 r’”´||’,::::’,　　　　 　 　 　 　 　 　 |:::::/l:::::|＼:::ﾄ､ヾ |　| 　 　 ／　/ ＼
+      |　　い　　　/ 　　ll　’,::’, 、 ｰこﾆ=-　　　　 　 /!::/ ヽ:::|　 ヾ､ 　ﾉ ﾉ　　／ 　,ｲ　　　ヽ、
+      |　　　　 　 ,’　　　 | 　’､:, ＼　–　　 　 　 ,. ‘´　|;’　 l ヾ､. 　 ／／　　　　　/ |　　　　l: l
+      |　　　　　　|　　　|!　　ヽ; 　ヽ 　 　 　 ／.:　 　 i! 　/ 　 ゛／／　|l　 　 　 /　|　 　 　 | |
+  section
+    p ですよね～☆
+
+section
+  section
+    p 実際に手で動かしてみましょう。
+  section
+    p <code>ARR</code>の中身は<code>[1,1,1,3,5,6,7,7,8,9]</code>。
+    p <code>N</code>は<code>3</code>とします。
+    p (そこ、<code>N</code>は入ってるとか言わない！)
+  section
+    h3 1ステップ目
+    p
+      ul
+        li 範囲は<code>0</code>から<code>9</code>。
+        li 真ん中は<code>4</code>で、その値は<code>5</code>。(割り算の結果は切り捨てます)
+        li <code>N</code>の方が小さいので、範囲の上限を<code>3</code>に設定。
+    .range-view
+      table.range
+        tbody
+          tr
+            td.range-min 1
+            td 1
+            td 1
+            td 3
+            td.range-mid 5
+            td 6
+            td 7
+            td 7
+            td 8
+            td.range-max 9
+      p.range-view-arrow.
+        <code>N</code>の方が小さいので…<br>
+        ↓
+      table.range
+        tbody
+          tr
+            td.range-min 1
+            td 1
+            td 1
+            td.range-max 3
+            td 5
+            td 6
+            td 7
+            td 7
+            td 8
+            td 9
+  section
+    h3 2ステップ目
+    ul
+      li 範囲は<code>0</code>から<code>3</code>。
+      li 真ん中は<code>1</code>で、その値は<code>1</code>。
+      li <code>N</code>の方が大きいので、範囲の下限を<code>2</code>に設定。
+    .range-view
+      table.range
+        tbody
+          tr
+            td.range-min 1
+            td.range-mid 1
+            td 1
+            td.range-max 3
+            td 5
+            td 6
+            td 7
+            td 7
+            td 8
+            td 9
+      p.range-view-arrow.
+        <code>N</code>の方が大きいので…<br>
+        ↓
+      table.range
+        tbody
+          tr
+            td 1
+            td 1
+            td.range-min 1
+            td.range-max 3
+            td 5
+            td 6
+            td 7
+            td 7
+            td 8
+            td 9
+  section
+    h3 3ステップ目
+    ul
+      li 範囲は<code>2</code>から<code>3</code>。
+      li 真ん中は<code>2</code>で、その値は<code>1</code>。
+      li <code>N</code>の方が大きいので、範囲の下限を<code>3</code>に設定。
+    .range-view
+      table.range
+        tbody
+          tr
+            td 1
+            td 1
+            td.range-mid.range-min 1
+            td.range-max 3
+            td 5
+            td 6
+            td 7
+            td 7
+            td 8
+            td 9
+      p.range-view-arrow.
+        <code>N</code>の方が大きいので…<br>
+        ↓
+      table.range
+        tbody
+          tr
+            td 1
+            td 1
+            td 1
+            td.range-min.range-max 3
+            td 5
+            td 6
+            td 7
+            td 7
+            td 8
+            td 9
+  section
+    h3 4ステップ目
+    ul
+      li 範囲は<code>3</code>から<code>3</code>。
+      li 真ん中は<code>3</code>で、その値は<code>3</code>。
+      li <code>N</code>と等しいので、<code>N</code>は入っているとして終了。
+    .range-view
+      table.range
+        tbody
+          tr
+            td 1
+            td 1
+            td.range-mid.range-min 1
+            td.range-max 3
+            td 5
+            td 6
+            td 7
+            td 7
+            td 8
+            td 9
+      p.range-view-arrow.
+        <code>N</code>と等しいので…<br>
+        ↓
+      p.range-view-arrow 発見！！
+
+section
+  section
+    p 分かりましたか？
+  section
+    p.
+      ここで注目してもらいたいのは、これまでの方法だと10回ループする必要があったものが、なんと<mark>4回で終わっている</mark>ことです。
+    p 半分以下です。これって結構すごいですよね？
+  section
+    p.
+      ちなみに、このようなアルゴリズムには<mark>二分探索(バイナリサーチ)</mark>という名前がついていて、その計算量は<code>ARR</code>の要素数を$m$とすると、$O(\log_{2}{m})$であることが知られています。
+    p.
+      $3 \lt \log_{2}{m} \lt 4$なので、今回の4回という結果もほぼあっているはずです。
+  section
+    p.
+      また、一番最初に書いた配列を直線的に探索するものを<mark>線形探索(リニアサーチ)</mark>と言ったりします。
+    p (この計算量は$O(m)$ですね、はい。)
+
+section
+  section
+    h2 それではこれをコードに書き起こしてみましょう！
+  section
+    h3 コード
+    pre
+      code.javascript(data-trim).
+        var flag = false;
+        
+        var min = 0, max = 9;
+        while(min <= max) {
+          var mid = Math.floor((min + max) / 2);
+        
+          if (ARR[mid] == N) {
+            flag = true;
+            break;
+          } else if (N < ARR[mid]) {
+            max = mid - 1;
+          } else if (N > ARR[mid]) {
+            min = mid + 1;
+          }
+        }
+        
+        if (flag) {
+          alert('入ってるよ');
+        } else {
+          alert('入ってないよ');
+        }
+  section
+    p.
+      範囲の下限が<code>min</code>、上限が<code>max</code>、その中間が<code>mid</code>となっていて、あとはさっきのアルゴリズムの通りです。
+  section
+    p.
+      試しにステップごとに実行できるようにしてみました。
+    div.range-view
+      table.range#example2-range
+        tbody
+          tr
+            td.range-min 1
+            td 1
+            td 1
+            td 3
+            td.range-mid 5
+            td 6
+            td 7
+            td 7
+            td 8
+            td.range-max 9
+      button.try-button#try-example2 実行
+
+section
+  p これで高速化できる！
+
+section
+  p (かのように思えた…)
+
+section
+  section
+    p 思いだしてみて下さい。
+  section
+    p
+      mark.
+        さらに、この配列<code>ARR</code>が全て小さいものから大きいものへ並んでいるとします。
+  section
+    p.
+      配列<code>ARR</code>が必ずそういう風になっているとは限りませんね？
+  section
+    pre.aa
+      |＼　　　　　　　　 /_　/　　　　　ヽ　/　　　} ﾚ,’　　　　　　　　　　 ／￣￣￣￣＼ 
+      |　　|｀l｀ヽ　　　　／ヽ／ ＜´｀ヽ u　　∨ u 　i レ’　 　 　 　 　 / 
+      |　 └l>￣　　　 !i´-） 　 　 |＼ ｀､　ヽ）,　／>/　　　　　　　　/　 地　 ほ　 こ 
+      |　　　!´ヽ､　　 ヽ ( _　U 　 !､　ヽ｡ヽ/,ﾚ,｡7´/-┬―┬―┬./　　獄　 ん　 れ
+      |　　_|＿/;:;:;7ヽ-ヽ、 ”) 　”"”’｀` ‐’”=’-'” / 　 !　　 ! 　　/　　　だ.　 と　 か 
+      |　　 |　 |;:;:;:{　 U u￣||　u　u 　,..､_ ->　/｀i　　　!　　 !　　＼　　　：.　 う　　ら 
+      |　　 |　 |;:;:;:;i＼　　　 iヽ、 　 i {++-`7, /|　 i　　　!　　 !　　＜_　 　 　 の　 が 
+      |　　__i　ヽ;:;:;ヽ ｀､　　i　　 ヽ、 ￣￣／　=､_i＿　　!　　 !　　 / 
+      |　　　ヽ　ヽ;:;:;:＼ ｀ヽ､i　 　／,ゝ_／|　　i　 ￣ヽヽ　!　　! ,, -’＼ 
+      |　　　　ヽ、＼;:;:;:;:｀ー､｀ｰ’´￣／;:;ノ　 ﾉ　　　　　 ヽ|　／ ,､-”´ ＼／￣￣￣￣ 
+      |　　　 　 　 　 　 　 　 ￣￣￣　　　　　　　　　　　　Y´／;:;:;＼ 
+
+section
+  p どうしようか？
+
+section
+  p そうだ！ 並べ直せばいいじゃないか！
+
+section
+  p どうやってだ…？
+
+section
+  section
+    p 考えてみましょう。
+  section
+    p まずは普段、どうやって並べているか整理してみます。
+  section
+    h3 わたしたちが普段、配列を順番に並べているか。
+    ol
+      li 1番小さいものを探す。
+      li それを配列の1番目に置く。
+      li 同じように2番目,3番目…を置く。
+      li 完了！
+  section
+    p 個人差はあるかと思いますが、こんなもんでしょう。
+
+section
+  section
+    p 方針は分かりました。コードを書いてみましょう。
+  section
+    p コード
+    pre
+      code.javascript(data-trim).
+        for (var i = 0; i < m-1; i++) {
+          var minIdx = i;
+          for (j = i+1; j < m; j++) {
+            if (ARR[j] < ARR[minIdx]) {
+              minIdx = j;
+            }
+          }
+  
+          var tmp = ARR[i];
+          ARR[i] = ARR[minIdx];
+          ARR[minIdx] = tmp;
+        }
+
+        alert(ARR);
+
+section
+  p さて。これで二分探索を使ったコードが書けます。
+
+section
+  h2 さっそく書きましょう！
+
+section
+  section
+    p と、言いたいところですが…
+  section
+    p (まだ何かあるのかよ…)
+section
+  section
+    h3 計算量を考えてみましょう。
+    p まずはループの回数を数えてみます。
+    p.
+      最初の<code>for (var i = 0; i < m-1; i++)</code>は言うまでもなく、$m-1$回のループですね。
+  section
+    p.
+      問題はその次の<code>for (j = i+1; j < m; j++)</code>です。これは何回目のループかによってその回数が変化します。しかし、少し考えてみると、これを含んだ全体のループの回数は初項$m-1$、末項$1$、項数$m-1$の等差数列の和に等しいことが分かります。
+  section
+    p.
+      なので、このループの回数は$\frac{m(m-1)}{2}$となります。
+    p.
+      (なんでこんなにぱぱっとループの回数が数えられるのか疑問な人は数Bの勉強でもしてみてください)
+  section
+    p.
+      で、計算量というのはそこから定数を取り去ったものなので……
+  section
+    p.
+      さっきの配列を並べるアルゴリズムは$O(m^{2})$となります。
+
+section
+  p あれ？
+
+section
+  section
+    p 最初のアルゴリズムより悪化してないか？
+  section
+    p 残念なことに、その通りです。
+    p 実際にこれらを組み合せたコードを実行してみると分かりますが、非常に遅いです。というか、僕の環境では1時間経っても終わりませんでした。
+
+section
+  section
+    p ならどうすればいいの？
+  section
+    p その答えは簡単です。
+
+section
+  h2 もっと効率のよいアルゴリズムにすればいい。
+
+section
+  section
+    p 今回の場合、ネックになっているのは配列を並べ直す部分だと考えられます。
+  section
+    p なので、それをどうにかする方法を考えましょう。
+
+section
+  section
+    p って突然言われても難しいですよね。
+  section
+    p というわけでこんな風に考えてみましょう。
+  section
+    p まず、要素数$n$がもの凄く少ないときについて考えてみる。
+    ul
+      li $n=0$のとき。そもそも並べかえるものがない。
+      li $n=1$のとき。一つじゃ並べかえようがない。
+      li $n=2$のとき。小さな方を前に、大きい方を後ろにする。
+  section
+    p 次に、順番に並んでいる配列同士をつなげてもっと大きい配列を作る方法を考えてみる。
+    ol
+      li 順番に並んでいる配列<code>A</code>と<code>B</code>がある。
+      li 以下のことを繰り返す。
+        ul
+          li <code>A</code>も<code>B</code>も空でないなら、先頭の要素が大きい方から一つ取り出して新しい配列に加える。
+          li <code>A</code>か<code>B</code>が空なら、空でない方から一つ取り出して新しい配列に加える。
+          li <code>A</code>も<code>B</code>も空なら繰り返しを終了する。
+      li 新しい配列も順番に並んでいる。
+  section
+    p すると……
+  section
+    p $n>=3$のときはこう考えることが出来ます。
+    ol
+      li 配列の要素を半分に分ける。
+        ul
+          li 分けたものの要素数が3以上ならさらに分ける。
+          li これを要素数が2以下なるまで続ける。
+      li 要素数2以下のときはさっきのルールに従って並べる。
+      li 並べ直されたもの同士をさっきのルールに従ってつなげる。
+      li 元の要素数になるまでつなげ続ける。
+  section
+    p 意外と簡単ですよね？
+
+section
+  section
+    h3 じゃ、コードにしましょう。
+  section
+    p (そろそろ疲れてきた…)
+  section
+    h3 コード
+    pre
+      code.javascript(data-trim).
+        //min, maxは範囲
+        function loop(arr, min, max) {
+          switch (max - min) {
+          //1つしかないならそのまま返す。
+          case 0: return arr;
+          //2つあるとき
+          case 1:
+            //後ろより前の方が大きいなら入れ替える。
+            if (arr[min] > arr[max]) {
+              var tmp = arr[min];
+              arr[min] = arr[max];
+              arr[max] = arr[min];
+            }
+            return arr;
+          //3つ以上のとき
+          default:
+            //範囲の中間を取る。
+            var mid = Math.floor((min + max) / 2);
+            //両側に対して繰り返す。
+            loop(arr, min, mid);
+            loop(arr, mid + 1, max);
+            //両側を順番を保ったままつなげる。
+            var i = min, j = mid+1;
+            var tmp = [];
+            for (k = 0; k < max - min + 1; k++) {
+              if (i > mid) {
+                tmp[k] = arr[j++];
+              } else if (j > max) {
+                tmp[k] = arr[i++];
+              } else if (arr[i] > arr[j]) {
+                tmp[k] = arr[j++];
+              } else {
+                tmp[k] = arr[i++];
+              }
+            }
+            for (k = 0; k < max - min + 1; k++) {
+              arr[min + k] = tmp[k];
+            }
+            return arr;
+          }
+        }
+        
+        //エントリーポイント
+        loop(ARR, 0, ARR.length - 1);
+  section
+    p なんか分かりにくいですね……。
+    p すみません。
+
+section
+  section
+    p ところで、
+  section
+    p このように、配列を順番に並べ直すことを<mark>ソート</mark>と言います。
+  section
+    p また、最初のソートアルゴリズムは<mark>選択ソート</mark>という名前がついています。
+  section
+    p さらに、さっき考えたソートアルゴリズムは<mark>マージソート</mark>と言います。
+  section
+    p ちなみに、このマージソートは計算量が$O(n \times \log{m})$であると知られています。
+    p (情報系では$log$の底を$2$として扱うことが多いので、さりげなく底を省略しました。底は$10$ではないので注意)
+  section
+    p.
+      要素数を1000000とすると、選択ソートでは計算量の具体値が100000000000になるのに対し、マージソートでは大体20000000になります。<br>
+      ざっと50000倍程度の差があるわけです。
+    p 選択ソートより大分効率がいいですね。
+
+section
+  p これでやっとコードを書ける……。
+
+section
+  pre.aa(style="font-size: 18px;")
+    |　 〈:.:.:.:.:.:.ヽ￣,. ‐'7 　 ／ 　 //- ヽヽ　 ヽヽ　ヽ　ヽ ヽ　＼ ヽ.　もう……いいよね 
+    |　　ヽ:.:.:.:.:.:.V:::::::/ 　 /　/　//　l　 !　i 　 i ヽヽ　ヽ　ヽ ヽ.ヽヽ.ヽ私、頑張ったよね…… 
+    |.　 / ヽ:.:.:.:.:.:ヽ:ｲ　,ｨ′　　 i::i:l　l:　lji :ﾄi　 lLl__:｝i .:}}､ .:}､.:::i. l　i }もう、ゴールしていいよね…… 
+    |　 l /　〉.:.:.:.:.:.N`<:::l:　　　 ｌ::/l,ﾑ‐7 l ｌ |:: il l i: l｀Tﾄl､:ｌ l l ﾄ､: |　　私のゴール……ずっと目指してきたゴール… 
+    |　 |'　/7　　　l ﾄ､::`!:　　　,ﾚ'7' j::/- ﾘ　! ﾘ j lﾘ,ｭj ﾊ:|ｌ:ｌ:ｌ !ｌ　ｌ:|　　私、頑張ったから……もう、いいよね…… 
+    |　 l　i　l　　　 l 〉:ヽ|:: 　 i　| _,.ィテﾗ/　 ﾚ′ ﾉ1ﾉiトj | ｌﾘ ﾘ　,ﾘ　　休んでも……いいよね…… 
+    |.　l　ｌ └ ┬--iハ::l::: 　 i　l７トｯ:ﾁi|　 　 　 　 ﾄｯi| ｌ | 　　　　　　色んな事があったけど 
+    |　l　 !: l::::/　:: l:.:.:.:ﾞl:::: 　 .い　い:::_,!　....::::::: , └-' ｌ l 　　.　　　　辛かったり、苦しかったりしたけど、 
+    |　|　l:: l:/　 　 l:.:.:.:.:l::::.　.　い ｀¨´::::: 　 　 ｰ' :::::　ﾉ ﾊ　　　　　　私、頑張って良かった。 
+    |　ｌ　ｌ::./　　　 ｌ.:.:.:.:.:l:::::. ヽ ヽヽ　　　　　　 ´　 ／　 い.　　　　　私のゴールは幸せと一緒だったから…… 
+    |.　l　ｌ└- ．.__l.:.:.:.:.:.:':::::.:..ヽ. `弋 -　.._＿__, イ:::::　　:い、　　　　一人きりじゃなかったから…… 
+    |.　 い::::::.::::::::ﾚ_.:.:.:.:.:.:l､::::::.. ヽ.　＼____|┐　　 l::::::. 　 ::い.　　　　だから……だからね……ゴールするね……
+
+section
+  section
+    p コード
+    pre
+      code.javascript(data-trim).
+        //loopからmergeSortという名前へ変更。
+        function mergeSort(arr, min, max) {
+          switch (max - min) {
+          case 0: return arr;
+          case 1:
+            if (arr[min] > arr[max]) {
+              var tmp = arr[min];
+              arr[min] = arr[max];
+              arr[max] = tmp;
+            }
+            return arr;
+          default:
+            var mid = Math.floor((min + max) / 2);
+            mergeSort(arr, min, mid);
+            mergeSort(arr, mid+1, max);
+            var i = min, j = mid+1;
+            var tmp = [];
+            for (k = 0; k < max - min + 1; k++) {
+              if (i > mid) {
+                tmp[k] = arr[j++];
+              } else if (j > max) {
+                tmp[k] = arr[i++];
+              } else if (arr[i] > arr[j]) {
+                tmp[k] = arr[j++];
+              } else {
+                tmp[k] = arr[i++];
+              }
+            }
+            for (k = 0; k < max - min + 1; k++) {
+              arr[min + k] = tmp[k];
+            }
+            return arr;
+          }
+        }
+        
+        //配列ARRをソート。
+        mergeSort(ARR, 0, m-1);
+        
+        //二分探索
+        var allFlag = true;
+  
+        for (var i = 0; i < n; i++) {
+          var N = NS[i];
+        
+          var flag = false;
+          var min = 0, max = m-1;
+    
+          while(min <= max) {
+            var mid = Math.floor((min + max) / 2);
+     
+            if (ARR[mid] == N) {
+              flag = true;
+              break;
+            } else if (N < ARR[mid]) {
+              max = mid - 1;
+            } else if (N > ARR[mid]) {
+              min = mid + 1;
+            }
+          }
+        
+          if (!flag) {
+            allFlag = false;
+            break;
+          }
+        }
+        
+        if (allFlag) {
+          alert('全部入ってたよ');
+        } else {
+          alert('全部入ってなかったよ');
+        }
+  section
+    p もうコードの説明とか無くても分かりますよね？
+  section
+    p 例によって実行できます。(需要……)
+    button.try-button#try-example3 実行
+
+section
+  section
+    h2 結果
+  section
+    table.view
+      tr
+        td 線形探索の場合の実行時間
+        td 2.94s
+      tr
+        td マージソート+二分探索の実行時間
+        td 0.99s
+  section
+    p あれ、期待したほど変わってない……。
+  section
+    p でもまあ、3倍近くになったんだからいいじゃない。
+
+section
+  section
+    h2 なぜ3倍しか速くならなかったのか
+  section
+    p.
+      ループの回数や計算量は減りましたが、その分ループの中ですることが複雑になったためだと考えられます。
+
+section
+  section
+    h2 まとめ
+  section
+    ul
+      li アルゴリズムとは<mark>ある問題を解くための方法</mark>のこと。
+      li アルゴリズムの効率の目安に<mark>計算量</mark>というものがある。
+      li 世の中には様々なアルゴリズムがあり、それぞれ計算量などのメリットやデメリットがある。
+  section
+    p 結論
+    pre.aa
+      |　　　　　　　　　　　　　　　　　　　_ ィ
+      |　　　　　　　　　　　　　　　r ─x´ _ノ-─-メ
+      |　　　　　　　　　　　　　　　 ゝイ⌒￣｀ 丶､::::::::｀＞､￣∥｀ヽ､
+      |　　　　　正　　　　　　　　／　　　　　　　 　 ヽ､::::::::::::::ヽr ､=＝ヽ
+      |　　　　　解　　　　　 　 / 　 　 　　　　　 　 }￣｀ヽ::,r‐ ､::!　　ヽ=.:ﾊ
+      |　　　　　は 　 　 　 　 /　　　　　　ゝ＜ ￣ }.　　 ◎　　 〉　　　 iヾ.:}
+      |　　　　　!!　　　　　 /　　　　イ　 　 　 　 _くゝ-‐ハ　 ./､　　　 }ヽ.:l
+      |　　　ひ　　　　　　　ハ　.／　　　　 ィヽ´／.:＼/::ﾍ_｀´イ　 　 ./ヾ:ｿ
+      |　　　と　　　　　　　/ヾ/　　 ゝ:´l.:.:.:.:l､ｲィア心r､:.:|ヽ∨__ .ノ/:.:ソ
+      |　　　つ　 　　 　 　∥/　 ／|:.:＿从__ﾊ " 弋て)　}.:|.ﾉ:/.:.:∥.:ゝ´　　
+      |　　　じ　 　 　 　 　 |:.:し´|:.:.:l.:.:l､fアぅ､ゝ　　ゝ^´ﾉ.:.レ＾γ⌒l
+      |　　　ゃ　　　　　　　　!:∥{ !､:λハﾞ 弋ｿ ､ __　　 /.:ハx､/ 　 l
+      |　　　な　　 　､=γ⌒ヾフゝ＼ゝヾヽｘｘ　弋.)／:ｲ／ ゞ|　　.l::ヽ
+      |　　　い　　 　 ＼ 〉､　　ヾ::／.:｀.:.:.:´:ゝ‐-イ〆 .〉　 ,ゞ:t　　l ､::ﾍ
+      |　　　！　　　　　,.^ヾ､　　 ヾ.‐-‐‐彳ｲ:::／^.r‐´-､ゞ´::人.　　　 ヽ-､
+      |　　　　　　 　／./:／ヾ､_＿)ﾉn　/.:.:.://　　ゝ､_ 　 ヽ´　　　/　　/　ヽ ､
+      |　　　　　　　　／ ./:/　　　 ゝ./^ゝl/.:.:∥/}　　 ノ::::_ヽ.　　｀ヽ/ 　 /　 γ .}､
+      |　　　　　/　　ﾊ.:l 　　　　 ( '／∧:λ!,lｲ´｀ ´.!:::::::ノヽ.　　 l　 ./ 　 /　/ ‐ヽ
+      |　　　　　l　　 |.:.:l.　　　　　ヽ,＜´｀／ ヽ､ .／:ゝ´:::／l｀.─｀‐ﾍ_ ノ__.人i ヽ ヽ
+      |　　　　　l　　 l.:.:.:ﾊ.　 ┌‐‐ｲl/|／.......､　/:::::::::_／}γゝ::::ヾ==彳::ノ:::::::::ﾞ～～ﾍ
+      |　　　　　l　　 ヾ､.:.:｀ゝ､_／|/_／─ ､:::::..:::::::ノ γ｀l/:::::｀ヽ::__::イ´:::::::::::::::::／ヘ)
+      |　　　　　 ヽ　　 ヽゝ⌒乂 ﾉム～､l　ハ__ﾊ lλl:::::∨::::::/,x==x､､:＿::ゝイ´ .レイ
+      |　　　　　　　　　　　　　 )/　 　 l::::＾^::}::::::::ゝイ::::::r ＼/⌒´￣｀/i　　　ゝ⌒´
+      |　　　　　　　　　　　　　　　　　　l::::::::::}ィ:::::::::::::＞lミﾐlゝ乂⌒｀//⌒⌒
+      |　　　　　　　　　　　　　　　　　　 ヽ､r /:::::ゝ´:::::::::::::::ヾ＝＝=|:|_ 
+
+section
+  section
+    h2 余談
+  section
+    p この問題は、実は次のようなコードのアルゴリズムだと$O(n + m)$で解くことができます。
+    p (恐らくこれが最適解です。)
+  section
+    h3 コード
+    pre
+      code.javascript(data-trim).
+        var backet = [];
+        for (var i = 0; i < m; i++) {
+          backet[ARR[i]] = true;
+        }
+        
+        var flag = true;
+        for (var i = 0; i < n; i++) {
+          if (!backet[NS[i]]) {
+            flag = false;
+            break;
+          }
+        }
+        
+        if (flag) {
+          alert('全部入ってたよ');
+        } else {
+          alert('全部入ってなかったよ');
+        }
+  section
+    p 一応実行できるようにしておきます。
+    button.try-button#try-example4 実行
+  section
+    p はやっ！(今までの努力はなんだったのか…)
+  section
+    p どんなアルゴリズムなのかは各自考えてみてください。
+
+section
+  h2 最後に
+
+section
+  p
+    strong 長すぎじゃあああああ！！！
+
+section
+  table.view
+    tr
+      td スライドの枚数
+      td 152枚
+    tr
+      td スライドのソースの行数(と文字数)
+      td 1477行(36364文字)
+    tr
+      td 書くのにかかった時間
+      td 約一週間
+
+section
+  p みなさんはもっと短かくまとめられるようになってください。
+
+section
+  p それでは……
+
+section
+  p ご静聴ありがとうございましたー！！
+
+section
+  h2
+    em -fin-
